@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 import { API_URLS } from "../../CRUDoperations/constants";
 import useCrudOperations from "../../useHooks/useCrudOperations";
 import { getSanitizedInput } from "../../Utils/utils";
+import { Navigate } from "react-router-dom";
+import { UiRoutes } from "../../Constants/constants";
+import { storeTokens } from "../../Storage/setCookies";
 
 const Login = () => {
-
   const [input, setInput] = useState({
     username: "",
     password: "",
@@ -14,7 +16,14 @@ const Login = () => {
   const [authentication,loadingAuthentication,errorAuthentication, getAuthentication] = useCrudOperations({
     method: 'POST',
     url: API_URLS.login,
+    skipAccessToken:true
   });
+  
+  useEffect(()=>{
+    if(authentication){
+      storeTokens({accessToken:authentication.accessToken,refreshToken:authentication.refreshToken})
+    }
+  },[authentication])
 
   const handleLoginSubmitEvent = (e) => {
     e.preventDefault();
@@ -37,6 +46,8 @@ const Login = () => {
   };
 
   return (
+    <>
+    {authentication && <Navigate to='/'/>}
     <form onSubmit={handleLoginSubmitEvent}>
       <div className="form_control">
         <label htmlFor="username">Username:</label>
@@ -65,6 +76,7 @@ const Login = () => {
       </div>
       <button className="btn-submit">Submit</button>
     </form>
+    </>
   );
 };
 
