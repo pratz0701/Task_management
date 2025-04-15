@@ -45,8 +45,6 @@ const useCrudOperations = ({ url, method, skipAccessToken }) => {
         fetchOptions.credentials = 'include';
       }
 
-      console.log("fetchiptions are",fetchOptions)
-
       try {
         const response = await fetch(url, fetchOptions);
 

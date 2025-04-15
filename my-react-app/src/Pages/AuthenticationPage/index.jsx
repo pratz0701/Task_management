@@ -19,11 +19,19 @@ const Login = () => {
     skipAccessToken:true
   });
   
-  useEffect(()=>{
-    if(authentication){
-      storeTokens({accessToken:authentication.accessToken,refreshToken:authentication.refreshToken})
-    }
-  },[authentication])
+  useEffect(() => {
+    const handleNavigationPostAuthentication = () => {
+      if (authentication) {
+        storeTokens({
+          accessToken: authentication.accessToken,
+          refreshToken: authentication.refreshToken,
+        });
+        Navigate(UiRoutes.homeScreen);
+      }
+    };
+
+    handleNavigationPostAuthentication();
+  }, [authentication]);
 
   const handleLoginSubmitEvent = (e) => {
     e.preventDefault();
