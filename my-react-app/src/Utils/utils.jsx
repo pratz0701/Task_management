@@ -6,7 +6,7 @@ const getSanitizedInput = (inputData, expectedType) => {
         finalOutputPostSanitization = inputData.replace(/[^a-zA-Z0-9-]/g, '');
         break;
       case 'authentication':
-        finalOutputPostSanitization = inputData.replace(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, '');
+        finalOutputPostSanitization = inputData.replace(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{5}$/, '');
         break;
       default:
         break;

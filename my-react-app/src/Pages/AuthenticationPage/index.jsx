@@ -1,17 +1,30 @@
-import { useState } from "react";
-import { getSanitizedInput } from "../../../Utils/utils";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
+import { API_URLS } from "../../CRUDoperations/constants";
+import useCrudOperations from "../../useHooks/useCrudOperations";
+import { getSanitizedInput } from "../../Utils/utils";
 
 const Login = () => {
-  console.log("jahsgf")
+
   const [input, setInput] = useState({
     username: "",
     password: "",
   });
 
+  const [authentication,loadingAuthentication,errorAuthentication, getAuthentication] = useCrudOperations({
+    method: 'POST',
+    url: API_URLS.login,
+  });
+
   const handleLoginSubmitEvent = (e) => {
     e.preventDefault();
-    if (input.username !== "" && input.password !== "") {
-      //dispatch action from hooks: api call for authentication
+    if ( input.username!=='' && input.password !== "") {
+      getAuthentication({
+        requestData:{
+          username:input.username,
+          password:input.password
+        }
+      })
     }
   };
 
@@ -26,19 +39,15 @@ const Login = () => {
   return (
     <form onSubmit={handleLoginSubmitEvent}>
       <div className="form_control">
-        <label htmlFor="user-email">Email:</label>
+        <label htmlFor="username">Username:</label>
         <input
-          type="email"
-          id="user-email"
-          name="email"
-          placeholder="example@yahoo.com"
-          aria-describedby="user-email"
+          type="username"
+          id="username"
+          name="username"
+          aria-describedby="user-name"
           aria-invalid="false"
           onChange={handleLoginInput}
         />
-        <div id="user-email" className="sr-only">
-          Please enter a valid username. It must contain at least 6 characters.
-        </div>
       </div>
       <div className="form_control">
         <label htmlFor="password">Password:</label>
