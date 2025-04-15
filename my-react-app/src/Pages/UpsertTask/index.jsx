@@ -1,7 +1,6 @@
 import { useState } from "react";
-import useCrudOperations from "../../useHooks/useCrudOperations";
-import { API_URLS } from "../../CRUDoperations/constants";
 import { getSanitizedInput } from "../../Utils/utils";
+import useTaskActions from "../../useHooks/useTaskActionHandler";
 
 const UpsertTask = (taskDetails) => {
   const {
@@ -13,16 +12,6 @@ const UpsertTask = (taskDetails) => {
   const [title, setTitle] = useState(taskTitle);
   const [description, setDescription] = useState(taskDescription);
 
-  const [, , , addTask] = useCrudOperations({
-    method: 'POST',
-    url: API_URLS.addTask,
-  });
-
-  const [, , , updateTask] = useCrudOperations({
-    method: 'POST',
-    url: API_URLS.updateTask,
-  });
-
   const handleTitleChange = (e) => {
     const { value } = e.target;
     setTitle(getSanitizedInput(value));
@@ -33,20 +22,15 @@ const UpsertTask = (taskDetails) => {
     setDescription(getSanitizedInput(value));
   };
 
-  const addOrUpdateTask = (e) => {
+  const { addTaskHandler, editTaskHandler } = useTaskActions();
+
+  const addOrUpdateTask = async (e) => {
     e.preventDefault();
-
-    const requestData = { title, description };
-
     if (taskId) {
-      updateTask({requestData: {requestData}},`id=${taskId}`);
+      await editTaskHandler({ taskId, title, description });
     } else {
-      addTask({
-        requestData,
-      });
+      await addTaskHandler({ title, description });
     }
-
-    // On success, trigger any success handling logic (e.g., showing a toast or redirect)
   };
 
   return (

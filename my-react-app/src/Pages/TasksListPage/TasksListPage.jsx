@@ -32,7 +32,10 @@ const TasksListPage = () => {
               <div className="font-bold">{title}</div>
               <div className="text-sm text-gray-600">{description}</div>
               <EditTask />
-              <DeleteTask />
+              <DeleteTask 
+                setTasksList={setTasksList}
+                setSkipCount={setSkipCount}
+              />
             </div>
           );
         })}

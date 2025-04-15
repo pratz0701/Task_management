@@ -1,20 +1,18 @@
-import useCrudOperations from '../../useHooks/useCrudOperations';
-import { API_URLS } from '../../CRUDoperations/constants';
-import { useCallback } from 'react';
+import { useCallback } from "react";
+import useTaskActions from "../../useHooks/useTaskActionHandler";
 
-const DeleteTask = (taskId) => {
-    const [, , , deleteTask] = useCrudOperations({
-        method: 'DELETE',
-        url: API_URLS.getAllTasks,
-      });
+const DeleteTask = ( taskId, setTasksList, setSkipCount ) => {
+    const { deleteTaskById } = useTaskActions();
 
     const deleteTaskHandler = useCallback(()=>{
-        deleteTask({},`id=${taskId}`)
+        deleteTaskById(taskId,setTasksList,setSkipCount)
     },[taskId]);
 
-  return (
-    <div onClick={deleteTaskHandler}>DeleteTask</div>
-  )
-}
+    return (
+      <div onClick={deleteTaskHandler}>
+        Delete Task
+      </div>
+  );
+};
 
-export default DeleteTask
+export default DeleteTask;
