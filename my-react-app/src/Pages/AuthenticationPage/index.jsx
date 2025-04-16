@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { API_URLS } from "../../CRUDoperations/constants";
 import useCrudOperations from "../../useHooks/useCrudOperations";
-import { getSanitizedInput } from "../../Utils/utils";
 import { Navigate } from "react-router-dom";
 import { UiRoutes } from "../../Constants/constants";
 import { storeTokens } from "../../Storage/setCookies";
@@ -22,7 +21,7 @@ const Login = () => {
   useEffect(() => {
     const handleNavigationPostAuthentication = () => {
       if (authentication) {
-        storeTokens({
+       storeTokens({
           accessToken: authentication.accessToken,
           refreshToken: authentication.refreshToken,
         });
@@ -49,7 +48,7 @@ const Login = () => {
     const { name, value } = e.target;
     setInput((prev) => ({
       ...prev,
-      [name]: getSanitizedInput(value,'authentication'),
+      [name]: value,
     }));
   };
 

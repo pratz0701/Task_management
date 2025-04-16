@@ -9,11 +9,11 @@ const AddTask = () => {
     },[]);
 
   return (
-    <div 
+    <button 
       onClick={createTask}
     >
         Add Task
-    </div>
+    </button>
   )
 }
 

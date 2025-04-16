@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { getSanitizedInput } from "../../Utils/utils";
 import useTaskActions from "../../useHooks/useTaskActionHandler";
 
 const UpsertTask = (taskDetails) => {
@@ -14,12 +13,12 @@ const UpsertTask = (taskDetails) => {
 
   const handleTitleChange = (e) => {
     const { value } = e.target;
-    setTitle(getSanitizedInput(value));
+    setTitle(value);
   };
 
   const handleDescriptionChange = (e) => {
     const { value } = e.target;
-    setDescription(getSanitizedInput(value));
+    setDescription(value);
   };
 
   const { addTaskHandler, editTaskHandler } = useTaskActions();
@@ -28,6 +27,8 @@ const UpsertTask = (taskDetails) => {
     e.preventDefault();
     if (taskId) {
       await editTaskHandler({ taskId, title, description });
+      
+
     } else {
       await addTaskHandler({ title, description });
     }
@@ -60,7 +61,7 @@ const UpsertTask = (taskDetails) => {
         </div>
 
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          {taskId ? 'Update Task' : 'Add Task'}
+          {taskId ? 'Edit Task' : 'Create Task'}
         </button>
       </form>
     </div>

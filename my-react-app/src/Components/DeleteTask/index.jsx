@@ -1,17 +1,17 @@
 import { useCallback } from "react";
 import useTaskActions from "../../useHooks/useTaskActionHandler";
 
-const DeleteTask = ( taskId, setTasksList, setSkipCount ) => {
+const DeleteTask = ( taskId ) => {
     const { deleteTaskById } = useTaskActions();
 
     const deleteTaskHandler = useCallback(()=>{
-        deleteTaskById(taskId,setTasksList,setSkipCount)
+        deleteTaskById(taskId);
     },[taskId]);
 
     return (
-      <div onClick={deleteTaskHandler}>
+      <button onClick={deleteTaskHandler}>
         Delete Task
-      </div>
+      </button>
   );
 };
 

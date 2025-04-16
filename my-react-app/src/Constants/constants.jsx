@@ -8,3 +8,9 @@ export const UiRoutes = {
     loginPage: '/loginPage',
     UpsertTask: '/upsertTask',
 };
+
+export const ActionType ={
+  Add:'add',
+  Update:'update',
+  Delete:'delete',
+}

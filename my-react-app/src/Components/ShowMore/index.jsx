@@ -2,11 +2,11 @@
 const ShowMore = ({getTasksList,total,taskCount}) => {
   if(total===taskCount)return;
   return (
-    <div
+    <button
     onClick={getTasksList}
     >
     ShowMore
-    </div>
+    </button>
   )
 }
 

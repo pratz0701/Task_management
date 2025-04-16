@@ -9,11 +9,11 @@ const EditTask = () => {
     },[]);
 
   return (
-    <div 
+    <button 
       onClick={editTask}
     >
         edit Task
-    </div>
+    </button>
   )
 }
 

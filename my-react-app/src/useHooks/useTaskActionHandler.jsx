@@ -1,14 +1,17 @@
 // useTaskActions.js
-import useCrudOperations from '../../useHooks/useCrudOperations';
-import { API_URLS } from '../../CRUDoperations/constants';
+import useCrudOperations from './useCrudOperations';
+import { API_URLS } from '../CRUDoperations/constants';
+import { UiRoutes } from '../Constants/constants';
+import { useNavigate } from 'react-router-dom';
+import {useComputeList } from '../useHooks/useComputeTaskList';
 
 const useTaskActions = () => {
-  const [, , , addTask] = useCrudOperations({
+  const [addedTaskInfo, , , addTask] = useCrudOperations({
     method: 'POST',
     url: API_URLS.addTask,
   });
 
-  const [, , , updateTask] = useCrudOperations({
+  const [updatedTaskInfo, , , updateTask] = useCrudOperations({
     method: 'POST',
     url: API_URLS.updateTask,
   });
@@ -18,10 +21,19 @@ const useTaskActions = () => {
       url: API_URLS.getAllTasks,
     });
 
-  const addTaskHandler = async ({ title, description }) => {
+    const {addTaskListComputation , updateTaskListComputation,deleteTaskListComputation} = useComputeList();
+
+  const NavigateToHomescreen = ()=> {
+    const Navigate = useNavigate();
+    Navigate(UiRoutes.homeScreen);
+  }
+
+  const addTaskHandler = async ({ title, description}) => {
     const requestData = { title, description };
     try {
       await addTask({ requestData });
+      addTaskListComputation(addedTaskInfo);
+      NavigateToHomescreen();
     } catch (err) {
       console.error('Failed to add task:', err);
       throw err;
@@ -32,17 +44,19 @@ const useTaskActions = () => {
     const requestData = { title, description };
     try {
       await updateTask({ requestData: { requestData } }, `id=${taskId}`);
+      updateTaskListComputation(updatedTaskInfo);
+      NavigateToHomescreen();
     } catch (err) {
       console.error('Failed to update task:', err);
       throw err;
     }
   };
 
-    const deleteTaskById = async ({taskId,setTasksList,setSkipCount}) => {
+    const deleteTaskById = async ({taskId}) => {
         try {
           await deleteTask({}, `id=${taskId}`);
-          setTasksList((prev) => prev.filter((task) => task.taskId !== taskId));
-          setSkipCount((prev) => prev - 1);
+          deleteTaskListComputation();
+          NavigateToHomescreen();
         } catch (err) {
           console.error('Failed to delete task:', err);
         }

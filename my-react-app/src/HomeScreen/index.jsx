@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from "react";
 import { API_URLS } from "../CRUDoperations/constants"
 import useCrudOperations from "../useHooks/useCrudOperations"
@@ -20,7 +21,8 @@ const HomeScreen = () => {
 
   return (
     <div>
-  {currentUser!==null ?<TasksListPage/>:<Login />}
+      <TasksListPage/>
+  {/* {currentUser!==null ?<TasksListPage/>:<Login />} */}
 </div>
 
   )
