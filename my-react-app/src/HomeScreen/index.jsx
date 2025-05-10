@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
- 
 import { useEffect } from "react";
 import { API_URLS } from "../CRUDoperations/constants"
 import useCrudOperations from "../useHooks/useCrudOperations"
-import TaskPage from "../Pages/TaskPage";
 import Login from '../Pages/AuthenticationPage';
+import TasksListPage from "../Pages/TasksListPage/TasksListPage";
 
 const HomeScreen = () => { 
-  const [currentUser, currentUserFetchLoading, currentUserFetchError, getCurrentUser] = useCrudOperations({
+  const [currentUser, , , getCurrentUser] = useCrudOperations({
       method: 'GET',
       url: API_URLS.currentUser,
   })
@@ -20,11 +19,10 @@ const HomeScreen = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  console.log("homesceewn")
-  
   return (
     <div>
-  {currentUser!==null ?<TaskPage/>:<Login />}
+      <TasksListPage/>
+  {/* {currentUser!==null ?<TasksListPage/>:<Login />} */}
 </div>
 
   )

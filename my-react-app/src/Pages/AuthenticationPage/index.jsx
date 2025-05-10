@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { API_URLS } from "../../CRUDoperations/constants";
 import useCrudOperations from "../../useHooks/useCrudOperations";
-import { getSanitizedInput } from "../../Utils/utils";
 import { Navigate } from "react-router-dom";
 import { UiRoutes } from "../../Constants/constants";
 import { storeTokens } from "../../Storage/setCookies";
@@ -19,11 +18,19 @@ const Login = () => {
     skipAccessToken:true
   });
   
-  useEffect(()=>{
-    if(authentication){
-      storeTokens({accessToken:authentication.accessToken,refreshToken:authentication.refreshToken})
-    }
-  },[authentication])
+  useEffect(() => {
+    const handleNavigationPostAuthentication = () => {
+      if (authentication) {
+       storeTokens({
+          accessToken: authentication.accessToken,
+          refreshToken: authentication.refreshToken,
+        });
+        Navigate(UiRoutes.homeScreen);
+      }
+    };
+
+    handleNavigationPostAuthentication();
+  }, [authentication]);
 
   const handleLoginSubmitEvent = (e) => {
     e.preventDefault();
@@ -41,7 +48,7 @@ const Login = () => {
     const { name, value } = e.target;
     setInput((prev) => ({
       ...prev,
-      [name]: getSanitizedInput(value,'authentication'),
+      [name]: value,
     }));
   };
 
